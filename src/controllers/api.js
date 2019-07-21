@@ -1,7 +1,7 @@
 const searchResults = (input, cb)=> cb (null, [ {dataType : 'result', params: input} ])
 
 const getResults = {
-  get : (req, res) => {
+  post : (req, res) => {
     const { params } = req.params;
   console.log(params, 'params');
     searchResults (params, (err, results) => {

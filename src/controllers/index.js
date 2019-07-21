@@ -6,8 +6,6 @@ const home = require('./home');
 const api = require('./api');
 
 router.get('/', home);
-router.get('/api/', api.get);
-router.get('/api/:params', api.get);
-
+router.post('/', api.post);
 
 module.exports = router;
