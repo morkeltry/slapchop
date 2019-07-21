@@ -1,19 +1,28 @@
-const searchResults = (input, cb)=> cb (null, [ {dataType : 'result', params: input} ])
+const multer = require ('multer');
 
-const getResults = {
+// Multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb)=> cb(null, 'uploads') ,
+  filename: (req, file, cb)=> cb(null, file.fieldname + '-' + Date.now())
+});
+const store = multer({ storage });
+
+// Express route (POST)
+const retrieve = {
   post : (req, res) => {
-    const { params } = req.params;
-  console.log(params, 'params');
-    searchResults (params, (err, results) => {
-      if (err) {console.log('ERROR: ', err)}
-      else {
-        res.type('application/json');
-        res.status(200);
-        res.send(results);
+    const file = req.file
+    if (!file) {
+      const error = new Error('Please upload a file')
+      error.httpStatusCode = 400
+      return next(error)
+    } else {
+
+        // res.type('application/json');
+        // res.status(200);
+        res.send(file);
         // res.render(results);
       }
-    });
   }
-}
+};
 
-module.exports = getResults;
+module.exports = { retrieve, store };
